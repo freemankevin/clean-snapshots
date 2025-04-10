@@ -1,7 +1,7 @@
 # Nexus Snapshot Cleanup Tool
 
 ![Docker Build Status](https://github.com/freemankevin/clean-snapshots/actions/workflows/docker-build.yml/badge.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)
 
 ## 🎯 解决问题场景
 
