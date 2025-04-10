@@ -2,17 +2,16 @@ version: '3.8'
 
 services:
   nexus-cleanup:
-    build: .
+    image: ghcr.io/freemankevin/clean-snapshots/nexus-cleanup:sha-03f11ee
     environment:
-      - NEXUS_URL=${NEXUS_URL}
-      - NEXUS_USER=${NEXUS_USER}
-      - NEXUS_PASS=${NEXUS_PASS}
-      - REPOSITORY_NAME=${REPOSITORY_NAME}
-      - RETAIN_COUNT=${RETAIN_COUNT}
-      - DRY_RUN=${DRY_RUN}
-      - LOG_LEVEL=${LOG_LEVEL}
-      - SCHEDULE_TIME=${SCHEDULE_TIME}
-      - HEALTHCHECK_PORT=${HEALTHCHECK_PORT}
+      NEXUS_URL: "${NEXUS_URL:-http://nexus:8081}"
+      NEXUS_USER: "${NEXUS_USER:-admin}"
+      NEXUS_PASS: "${NEXUS_PASS:-admin123}"
+      REPOSITORY_NAME: "${REPOSITORY_NAME:-maven-snapshots}"
+      RETAIN_COUNT: "3"
+      DRY_RUN: "false"
+      LOG_LEVEL: "INFO"
+      SCHEDULE_TIME: "03:00"
     volumes:
       - nexus-cleanup-logs:/var/log
     ports:
@@ -44,3 +43,8 @@ services:
 volumes:
   nexus-data:
   nexus-cleanup-logs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /var/log/nexus-cleanup
+      o: bind
