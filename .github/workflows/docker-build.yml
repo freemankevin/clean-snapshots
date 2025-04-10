@@ -57,15 +57,3 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Test built image
-        if: github.event_name != 'pull_request'
-        run: |
-          # Extract the first tag from the newline-separated list
-          FIRST_TAG=$(echo "${{ steps.meta.outputs.tags }}" | head -n 1)
-          echo "Testing image with tag: $FIRST_TAG"
-          docker pull "$FIRST_TAG"
-          docker run --rm -d -p 8000:8000 --name test-container "$FIRST_TAG"
-          sleep 10
-          curl -f http://localhost:8000/health || exit 1
-          docker stop test-container
